@@ -1,0 +1,46 @@
+
+// A function to print the nodes
+void print(FILE *f,node root)
+{
+	int i,j;
+	node cur=root;
+	if(cur==NULL)
+		return;
+	// Prints data of current node to file
+	
+	fprintf(f,"\"");
+	for(i=0;i<cur->count;i++)
+		fprintf(f,"%d ",root->data[i]);
+	fprintf(f,"\"\n");
+	
+	// Prints the links
+	
+	i=0;
+	while(cur->link[i]!=NULL && i<=cur->count)
+	{
+		fprintf(f,"\"");
+		for(j=0;j<cur->count;j++)
+			fprintf(f,"%d ",cur->data[j]);
+		fprintf(f,"\"->\"");
+		for(j=0;j<(cur->link[i])->count;j++)
+			fprintf(f,"%d ",(cur->link[i])->data[j]);
+		fprintf(f,"\"\n");
+		i++;
+	}
+	
+	// Recursively calls children 
+	for(i=0;i<=4;i++)
+		print(f,root->link[i]);		
+}			
+
+
+void display()
+{
+	FILE *ptr;
+	ptr=fopen("opb+.dot","w");
+	fprintf(ptr,"digraph{\n");
+	print(ptr,root);
+	fprintf(ptr,"}");
+	fclose(ptr);
+}
+
